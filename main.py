@@ -17,7 +17,7 @@ from colorama import Fore as fore
 #   CONFIG VALUES -> README.md   #
 ##################################
 
-from user_secrets import username, clientID, clientSecret, redirectURI, banner
+from utils.user_secrets import username, clientID, clientSecret, redirectURI, banner
 
 ##########################
 #   CHECKLIST FUNCTION   #
