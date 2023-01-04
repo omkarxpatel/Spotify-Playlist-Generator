@@ -36,9 +36,8 @@ def main():
 Welcome, {user["display_name"]}
 ---------------------------------------
 | 0 - Exit                            |
-| 1 - Search for a Song               |
-| 2 - Search for an Album (not ready) |
-| 3 - Get a song reccomendation       |
+| 1 - Play a Song                     |
+| 2 - Get a song reccomendation       |
 ---------------------------------------
                 """)
 
@@ -76,10 +75,7 @@ Welcome, {user["display_name"]}
             sp = spotipy.Spotify(auth=token)
             sp.start_playback(uris=[song])
 
-        # elif choice == 2:
-        # add album
-
-        elif choice == 3:
+        elif choice == 2:
             values = []
             for x in range(3):
                 value = input(f"Enter song {x+1}: ")
