@@ -27,8 +27,8 @@ pip install spotipy --upgrade
 - Get recommended a song based off of user input
 - Get a generated playlist made off of an existing playlist
 
-# Installation:
-## Setup a user_secrets file
+# Setup:
+## Create a user_secrets file
 - Create a utils folder
 - Add user_secrets.py to that folder
 - Enter the following code
