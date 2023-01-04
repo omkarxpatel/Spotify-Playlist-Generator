@@ -4,13 +4,11 @@
 
 import os
 import time
-import json
 import random
 import string
 import spotipy
 import webbrowser
 import spotipy.util as util
-from collections import Counter
 from colorama import Fore as fore
 
 ##################################
