@@ -1,6 +1,9 @@
 # Spotify Player
 A spotify player that runs off of the `spotipy` api
-```py pip3 install spotipy```
+
+```py
+pip3 install spotipy
+```
 
 ## Features:
 - Play a song via console
