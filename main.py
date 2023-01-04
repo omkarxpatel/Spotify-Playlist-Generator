@@ -25,7 +25,6 @@ def clear(val):
 def raiseError(error):
     print(f"{fore.RED}Error: {fore.RESET}{error}")
 
-
 def main():
     spotifyObject = spotipy.Spotify(auth=spotipy.SpotifyOAuth(clientID,clientSecret,redirectURI).get_access_token()["access_token"])
     user = spotifyObject.current_user()
@@ -39,6 +38,7 @@ Welcome, {user["display_name"]}
 | 0 - Exit                            |
 | 1 - Search for a Song               |
 | 2 - Search for an Album (not ready) |
+| 3 - Get a song reccomendation       |
 ---------------------------------------
                 """)
 
@@ -51,7 +51,7 @@ Welcome, {user["display_name"]}
                 raiseError(f"\"{choice}\" is not an integer")
                 clear(5)
 
-            if isvalid(choice, 0, 2):
+            if isvalid(choice, 0, 3):
                 clear(0); break
         
         if choice == 0:
@@ -77,6 +77,47 @@ Welcome, {user["display_name"]}
             sp.start_playback(uris=[song])
 
         # elif choice == 2:
+        # add album
+
+        elif choice == 3:
+            values = []
+            for x in range(3):
+                value = input(f"Enter song {x+1}: ")
+                values.append(value)
+
+            results_1 = spotifyObject.search(q=values[0], type='track')
+            song_1_id = results_1['tracks']['items'][0]['id']
+            
+            results_2 = spotifyObject.search(q=values[1], type='track')
+            song_2_id = results_2['tracks']['items'][0]['id']
+
+            results_3 = spotifyObject.search(q=values[2], type='track')
+            song_3_id = results_3['tracks']['items'][0]['id']
+            
+            recommendations = spotifyObject.recommendations(seed_tracks=[song_1_id, song_2_id, song_3_id])
+            recommended_song = recommendations['tracks'][0]['name']
+            recommended_song_id = recommendations['tracks'][0]['id']
+
+            track = spotifyObject.track(recommended_song_id)
+            artist = track['artists'][0]['name']
+
+            song = recommendations["tracks"][0]["external_urls"]["spotify"]
+    
+            print(f"\nRecommended song: {recommended_song} - {artist}")
+            play = input("Would you like to play this song [yes/no]: ").lower()
+
+            if play in ['y','yes']:
+
+                print(f"{fore.GREEN}✅ Playing {recommended_song} - {artist}{fore.RESET}")
+                
+                scope = 'user-modify-playback-state'
+                token = util.prompt_for_user_token(username, scope, client_id=clientID, client_secret=clientSecret, redirect_uri=redirectURI)
+                sp = spotipy.Spotify(auth=token)
+                sp.start_playback(uris=[song])
+            
+            else:
+                clear(0); exit
+
 
 
         repeat = input("\nWould you like to try again [yes/no]: ").lower()
@@ -85,5 +126,6 @@ Welcome, {user["display_name"]}
 
         else:
             clear(0); exit()
+    
             
 main()
