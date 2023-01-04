@@ -13,16 +13,15 @@ import spotipy.util as util
 from collections import Counter
 from colorama import Fore as fore
 
-
 ##################################
 #   CONFIG VALUES -> README.md   #
 ##################################
 
 from user_secrets import username, clientID, clientSecret, redirectURI, banner
 
-########################
-#   HELPER FUNCTIONS   #
-########################
+##########################
+#   CHECKLIST FUNCTION   #
+##########################
 
 not_completed = "❌"
 completed = "✅"
@@ -56,6 +55,9 @@ def checklist(step):
 
     print(topbot); print(step1); print(step2); print(step3); print(step4); print(step5); print(topbot)
 
+########################
+#   HELPER FUNCTIONS   #
+########################
 
 def roundPlaylistLen(val):
     return (val+(20-val%20))/4
@@ -73,11 +75,9 @@ def clear(val):
         time.sleep(val)
         os.system("clear")
 
-
-########################
-#   SPOTIFY COMMANDS   #
-########################
-
+###################
+#   PLAY A SONG   #
+###################
 
 def playSong(spotifyObject, searchQuery):
     searchResults = spotifyObject.search(searchQuery,1,0,"track")
@@ -100,6 +100,9 @@ def playSong(spotifyObject, searchQuery):
     sp = spotipy.Spotify(auth=token)
     sp.start_playback(uris=[song])
 
+##############################
+#   GET A RECOMMENDED SONG   #
+##############################
 
 def recommendSong(spotifyObject, song1, song2, song3):
     
@@ -137,6 +140,9 @@ def recommendSong(spotifyObject, song1, song2, song3):
     else:
         clear(0); exit
 
+#########################
+#   GENERATE PLAYLIST   #
+#########################
 
 def generate_similar_playlist(spotifyObject, playlist_url):
 
@@ -198,7 +204,6 @@ def generate_similar_playlist(spotifyObject, playlist_url):
 #   MAIN STARTER   #
 ####################
 
-
 def main():
     spotifyObject = spotipy.Spotify(auth=spotipy.SpotifyOAuth(clientID,clientSecret,redirectURI).get_access_token()["access_token"])
     user = spotifyObject.current_user()
@@ -220,17 +225,13 @@ def main():
             if isvalid(choice, 0, 4):
                 clear(0); break
 
-
-        # exits the program
         if choice == 0:
             clear(0); exit()
-        
-        # plays a song
+
         elif choice == 1:
             searchQuery = input("Enter Song Name: ")
             playSong(spotifyObject, searchQuery)
 
-        # finds a recommended song
         elif choice == 2:
             values = []
             for x in range(3):
@@ -238,13 +239,13 @@ def main():
                 values.append(value)
 
             recommendSong(spotifyObject, values[0],values[1],values[2])
-            
-        # generates a similar playlist
+
         elif choice == 3:
             playlistUrl = input("Enter playlist url: ")
             generate_similar_playlist(spotifyObject, playlistUrl)
         
-        elif choice == 4:
+        # DEBUG COMMAND
+        elif choice == 10:
             scope = 'playlist-modify-public playlist-modify-private'
             token = util.prompt_for_user_token(username, scope, client_id=clientID, client_secret=clientSecret, redirect_uri=redirectURI)
             sp = spotipy.Spotify(auth=token)
