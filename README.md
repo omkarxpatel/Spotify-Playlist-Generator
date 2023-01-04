@@ -1,8 +1,25 @@
 # Spotify Player
-A spotify player that runs off of the `spotipy` api
 
-```py
+## Documentation
+
+Spotipy's full documentation is online at [Spotipy Documentation](http://spotipy.readthedocs.org/).
+
+## Installation
+
+```bash
 pip install spotipy
+```
+
+alternatively, for Windows users 
+
+```bash
+py -m pip install spotipy
+```
+
+or upgrade
+
+```bash
+pip install spotipy --upgrade
 ```
 
 ## Features:
@@ -29,3 +46,4 @@ banner = """Welcome, {}!
 | 3 | Generate a new playlist         |
 ---------------------------------------"""
 ```
+- 
