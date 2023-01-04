@@ -23,12 +23,12 @@ pip install spotipy --upgrade
 ```
 
 ## Features:
-- Play a song via your terminal
--- Just enter a song name and it will start playing
-- Get recommended a song based off of user input
--- Enter 3 songs and it will generate a song based off of your input
-- Get a generated playlist made off of an existing playlist
--- Enter a playlist url and it will generate a brand new playlist with similar songs
+1. Play a song via your terminal
+- Just enter a song name and it will start playing
+2. Get recommended a song based off of user input
+- Enter 3 songs and it will generate a song based off of your input
+3. Get a generated playlist made off of an existing playlist
+- Enter a playlist url and it will generate a brand new playlist with similar songs
 
 # Setup:
 ## Create a user_secrets file
