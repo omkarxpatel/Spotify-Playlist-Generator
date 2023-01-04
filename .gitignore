@@ -1,4 +1,0 @@
-.cache*
-user_secrets.py
-__pycache__
-.gitignore
