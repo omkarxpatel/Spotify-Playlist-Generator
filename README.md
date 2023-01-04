@@ -30,7 +30,7 @@ pip install spotipy --upgrade
 3. Get a generated playlist made off of an existing playlist
 - Enter a playlist url and it will generate a brand new playlist with similar songs
 
-# Setup:
+# Getting started:
 ## Create a user_secrets file
 - Create a utils folder
 - Add user_secrets.py to that folder
