@@ -24,7 +24,7 @@ pip install spotipy --upgrade
 
 ## Features:
 1. Play a song via your terminal
-- Just enter a song name and it will start playing
+- Enter a song name and it will start playing in your spotify application
 2. Get recommended a song based off of user input
 - Enter 3 songs and it will generate a song based off of your input
 3. Get a generated playlist made off of an existing playlist
