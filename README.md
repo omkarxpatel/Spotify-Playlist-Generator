@@ -46,4 +46,11 @@ banner = """Welcome, {}!
 | 3 | Generate a new playlist         |
 ---------------------------------------"""
 ```
-- 
+## How to get secrets:
+A full set of examples can be found in the [online documentation](http://spotipy.readthedocs.org/) and in the [Spotipy examples directory](https://github.com/plamere/spotipy/tree/master/examples).
+
+To get started, install spotipy and create an app on https://developers.spotify.com/.
+Add your new ID and SECRET to your environment:
+
+## Reporting issues:
+If you find any bugs, leave a comment or a push request
