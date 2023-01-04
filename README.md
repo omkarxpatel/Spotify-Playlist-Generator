@@ -1,6 +1,5 @@
 # Spotify Playlist Generator
-![Current Version](https://img.shields.io/badge/version-1.0.7-green.svg)](https://github.com/omkarxpatel/Spotify-Playlist-Generator)
-## Documentation
+![Current Version](https://img.shields.io/badge/version-1.0.7-green.svg)]
 
 Spotipy's full documentation is online at [Spotipy Documentation](http://spotipy.readthedocs.org/).
 
