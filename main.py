@@ -1,9 +1,9 @@
 import os
 import time
-import json
 import spotipy
 import webbrowser
 from colorama import Fore as fore
+import spotipy.util as util
 
 username = "9mjw6j7712eqyhu54vu5dsag6"
 clientID = "fbe9c56baeb24b4e83331867cb867e34"
@@ -69,6 +69,12 @@ Welcome, {user["display_name"]}
                 raiseError(f"Could not open: {song}")
 
             print(f"{fore.GREEN}✅ {track['name']} - {track['artists'][0]['name']}{fore.RESET}")
+
+
+            scope = 'user-modify-playback-state'
+            token = util.prompt_for_user_token(username, scope, client_id=clientID, client_secret=clientSecret, redirect_uri=redirectURI)
+            sp = spotipy.Spotify(auth=token)
+            sp.start_playback(uris=[song])
 
         # elif choice == 2:
 
