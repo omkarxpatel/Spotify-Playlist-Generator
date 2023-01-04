@@ -101,7 +101,7 @@ def playSong(spotifyObject, searchQuery):
 ##############################
 #   GET A RECOMMENDED SONG   #
 ##############################
-
+ 
 def recommendSong(spotifyObject, song1, song2, song3):
     
     results_1 = spotifyObject.search(q=song1, type="track")
