@@ -68,7 +68,7 @@ Welcome, {user["display_name"]}
             except:
                 raiseError(f"Could not open: {song}")
 
-            print(f"{fore.GREEN}✅ {track['name']} - {track['artists'][0]['name']}{fore.RESET}")
+            print(f"{fore.GREEN}✅ Playing {track['name']} - {track['artists'][0]['name']}{fore.RESET}")
 
 
             scope = 'user-modify-playback-state'
