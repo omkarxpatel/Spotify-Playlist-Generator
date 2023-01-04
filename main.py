@@ -4,7 +4,9 @@
 
 import os
 import time
+import json
 import random
+import string
 import spotipy
 import webbrowser
 import spotipy.util as util
@@ -22,12 +24,47 @@ from user_secrets import username, clientID, clientSecret, redirectURI, banner
 #   HELPER FUNCTIONS   #
 ########################
 
+not_completed = "❌"
+completed = "✅"
+
+topbot = "----------------------------------------"
+step1 = f"| {not_completed} | Extracting songs                |"
+step2 = f"| {not_completed} | Extracting song-ids             |"
+step3 = f"| {not_completed} | Create playlist                 |"
+step4 = f"| {not_completed} | Adding songs                    |"
+step5 = f"| {not_completed} | Task Finished                   |"
+
+def checklist(step):
+    clear(0)
+    global step1,step2,step3,step4,step5
+
+    if step == 1:
+        step1 = f"| {completed} | Extracting songs                |"
+
+    elif step == 2:
+        step2 = f"| {completed} | Extracting song-ids             |"
+
+    elif step == 3:
+        step3 = f"| {completed} | Create playlist                 |"
+
+    elif step == 4:
+        step4 = f"| {completed} | Adding songs                    |"
+
+    elif step == 5:
+        step5 = f"| {completed} | Finished playlist               |"
+    
+
+    print(topbot); print(step1); print(step2); print(step3); print(step4); print(step5); print(topbot)
+
+
 def roundPlaylistLen(val):
     return (val+(20-val%20))/4
 
 def isvalid(option, min, max):
     return min <= option <= max
 
+def raiseError(error):
+    print(f"{fore.RED}Error: {fore.RESET}{error}")
 
 def clear(val):
     if val != 0:
@@ -35,10 +72,6 @@ def clear(val):
     else:
         time.sleep(val)
         os.system("clear")
-
-
-def raiseError(error):
-    print(f"{fore.RED}Error: {fore.RESET}{error}")
 
 
 ########################
@@ -105,7 +138,10 @@ def recommendSong(spotifyObject, song1, song2, song3):
         clear(0); exit
 
 
-def generate_similar_playlist(spotifyObject, playlist_len, playlist_url):
+def generate_similar_playlist(spotifyObject, playlist_url):
+
+    checklist(0)
+
     playlist_id = playlist_url.split("/")[-1]
     playlist = spotifyObject.playlist(playlist_id)
 
@@ -114,12 +150,11 @@ def generate_similar_playlist(spotifyObject, playlist_len, playlist_url):
 
     for item in tracks['items']:
         song_names.append(item['track']['name'])
+
+    checklist(1)
     
     song_ids = []
     total_songs = []
-
-    print(song_names)
-    print("generating song ids...")
 
     for item in song_names:
         result = spotifyObject.search(q=item, type="track")
@@ -127,43 +162,37 @@ def generate_similar_playlist(spotifyObject, playlist_len, playlist_url):
 
         song_ids.append(song_id)
     
-    print(song_ids)
-    
-    # getting all the song ids from the playlist and adding to song_ids
 
     for _ in range(int(roundPlaylistLen(len(song_ids))/4)):
         recommendations = spotifyObject.recommendations(seed_tracks=random.sample(song_ids, 5))
-        print(recommendations["tracks"])
-        #each recommendations gives 20 songs
-        #we will get however many songs the user wants by rounding up to the nearest 20, done in roundPlaylistLen
 
         for y in range(len(recommendations["tracks"])):
             song = recommendations["tracks"][y]["name"]
-            song_id = recommendations["tracks"][y]["id"]
+            song_uri = recommendations["tracks"][y]["uri"]
 
-            value = f"{song} : {song_id}"
+            value = f"{song}:{song_uri}"
             total_songs.append(value)
         
+    checklist(2)
 
     scope = 'playlist-modify-public playlist-modify-private'
     token = util.prompt_for_user_token(username, scope, client_id=clientID, client_secret=clientSecret, redirect_uri=redirectURI)
     sp = spotipy.Spotify(auth=token)
 
-    data = {
-    'name': 'My Playlist',
-    'description': 'A playlist of my favorite songs',
-    'public': True
-    } 
-
-    gen_playlist = sp.user_playlist_create(username, data)
+    generated_name = ''.join(random.choices(string.ascii_letters, k=10))
+    gen_playlist = sp.user_playlist_create(username, name=generated_name)
     gen_playlist_id = gen_playlist['id']
-    print("created playlist")
+
+    checklist(3)
 
     for item in total_songs:
-        sp.user_playlist_add_tracks(username, gen_playlist_id, [item])
-    
-    print("finished playlist")
+        item = item.split(":")
 
+        sp.user_playlist_add_tracks(username, gen_playlist_id, [item[-1]])
+
+    checklist(4)
+    checklist(5)
+    print(f"Generated playlist: {generated_name}")
 
 ####################
 #   MAIN STARTER   #
@@ -188,7 +217,7 @@ def main():
                 raiseError(f"\"{choice}\" is not an integer")
                 clear(5)
 
-            if isvalid(choice, 0, 3):
+            if isvalid(choice, 0, 4):
                 clear(0); break
 
 
@@ -212,9 +241,28 @@ def main():
             
         # generates a similar playlist
         elif choice == 3:
-            playListLen = input("Enter length of new playlist: ")
             playlistUrl = input("Enter playlist url: ")
-            generate_similar_playlist(spotifyObject, playListLen, playlistUrl)
+            generate_similar_playlist(spotifyObject, playlistUrl)
+        
+        elif choice == 4:
+            scope = 'playlist-modify-public playlist-modify-private'
+            token = util.prompt_for_user_token(username, scope, client_id=clientID, client_secret=clientSecret, redirect_uri=redirectURI)
+            sp = spotipy.Spotify(auth=token)
+
+            generated_name = ''.join(random.choices(string.ascii_letters, k=10))
+
+            gen_playlist = sp.user_playlist_create(username, name=generated_name)
+            gen_playlist_id = gen_playlist['id']
+
+            song = input("Enter song name: ")
+            results = sp.search(q=song, type='track')
+
+            song_uri = results["tracks"]["items"][0]["uri"]
+
+            sp.user_playlist_add_tracks(username, gen_playlist_id, [song_uri])
+
+            print(f"Generated playlist - {generated_name}")
+
 
 
         repeat = input("\nWould you like to try again [yes/no]: ").lower()
