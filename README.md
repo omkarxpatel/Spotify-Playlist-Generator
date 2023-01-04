@@ -1,4 +1,4 @@
-# Spotify Player
+# Spotify Playlist Generator
 
 ## Documentation
 
