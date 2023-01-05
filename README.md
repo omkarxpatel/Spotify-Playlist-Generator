@@ -1,6 +1,5 @@
 # Spotify Playlist Generator
-
-## Documentation
+![Current Version](https://img.shields.io/badge/version-1.0.7-green.svg)
 
 Spotipy's full documentation is online at [Spotipy Documentation](http://spotipy.readthedocs.org/).
 
@@ -23,11 +22,14 @@ pip install spotipy --upgrade
 ```
 
 ## Features:
-- Play a song via console
-- Get recommended a song based off of user input
-- Get a generated playlist made off of an existing playlist
+1. Play a song via your terminal
+- Enter a song name and it will start playing in your spotify application
+2. Get recommended a song based off of user input
+- Enter 3 songs and it will generate a song based off of your input
+3. Get a generated playlist made off of an existing playlist
+- Enter a playlist url and it will generate a brand new playlist with similar songs
 
-# Setup:
+# Getting started:
 ## Create a user_secrets file
 - Create a utils folder
 - Add user_secrets.py to that folder
