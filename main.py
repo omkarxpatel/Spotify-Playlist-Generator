@@ -26,32 +26,44 @@ except:
 
 not_completed = "❌"
 completed = "✅"
+working = "⏳"
 
 topbot = "----------------------------------------"
 step1 = f"| {not_completed} | Extracting songs                |"
 step2 = f"| {not_completed} | Extracting song-ids             |"
-step3 = f"| {not_completed} | Create playlist                 |"
+step3 = f"| {not_completed} | Generating songs                |"
 step4 = f"| {not_completed} | Adding songs                    |"
-step5 = f"| {not_completed} | Task Finished                   |"
+step5 = f"| {not_completed} | Playlist finished               |"
 
-def checklist(step):
+def checklist(step, working_bool=None, task=None):
     clear(0)
     global step1,step2,step3,step4,step5
 
+    value = completed
+    if working_bool == True:
+        value = working
+
     if step == 1:
-        step1 = f"| {completed} | Extracting songs                |"
+        step1 = f"| {value} | Extracting songs                |"
 
     elif step == 2:
-        step2 = f"| {completed} | Extracting song-ids             |"
+        step2 = f"| {value} | Extracting song-ids             |"
 
     elif step == 3:
-        step3 = f"| {completed} | Create playlist                 |"
+        step3 = f"| {value} | Generating songs                |"
 
     elif step == 4:
-        step4 = f"| {completed} | Adding songs                    |"
+        step4 = f"| {value} | Adding songs                    |"
 
     elif step == 5:
-        step5 = f"| {completed} | Finished playlist               |"
+        if task:
+            task = int(task)
+            taskTime = round(time.time()-task,2)
+            spacing = " "*(11-len(str(taskTime)))
+
+            step5 = f"| {value} | Playlist finished ({taskTime}s){spacing}|"
+        else:
+            step5 = f"| {value} | Playlist finished               |"
     
 
     print(topbot); print(step1); print(step2); print(step3); print(step4); print(step5); print(topbot)
@@ -136,16 +148,15 @@ def recommendSong(spotifyObject, song1, song2, song3):
         sp = spotipy.Spotify(auth=token)
         sp.start_playback(uris=[recommended_song_url])
 
-    else:
-        clear(0); exit
-
 #########################
 #   GENERATE PLAYLIST   #
 #########################
 
 def generate_similar_playlist(spotifyObject, playlist_url):
+    tasktime = time.time()
 
     checklist(0)
+    checklist(1, True)
 
     playlist_id = playlist_url.split("/")[-1]
     playlist = spotifyObject.playlist(playlist_id)
@@ -157,6 +168,7 @@ def generate_similar_playlist(spotifyObject, playlist_url):
         song_names.append(item['track']['name'])
 
     checklist(1)
+    checklist(2, True)
     
     song_ids = []
     total_songs = []
@@ -169,7 +181,7 @@ def generate_similar_playlist(spotifyObject, playlist_url):
     
 
     for _ in range(int(roundPlaylistLen(len(song_ids))/4)):
-        recommendations = spotifyObject.recommendations(seed_tracks=random.sample(song_ids, 20))
+        recommendations = spotifyObject.recommendations(limit=20, seed_tracks=random.sample(song_ids, 5))
 
         for y in range(len(recommendations["tracks"])):
             song = recommendations["tracks"][y]["name"]
@@ -179,6 +191,7 @@ def generate_similar_playlist(spotifyObject, playlist_url):
             total_songs.append(value)
         
     checklist(2)
+    checklist(3, True)
 
     scope = 'playlist-modify-public playlist-modify-private'
     token = util.prompt_for_user_token(username, scope, client_id=clientID, client_secret=clientSecret, redirect_uri=redirectURI)
@@ -189,6 +202,7 @@ def generate_similar_playlist(spotifyObject, playlist_url):
     gen_playlist_id = gen_playlist['id']
 
     checklist(3)
+    checklist(4, True)
 
     for item in total_songs:
         item = item.split(":")
@@ -196,8 +210,14 @@ def generate_similar_playlist(spotifyObject, playlist_url):
         sp.user_playlist_add_tracks(username, gen_playlist_id, [item[-1]])
 
     checklist(4)
-    checklist(5)
+    checklist(5, True)
+
+    time.sleep(1)
+    checklist(5, task=tasktime)
+
+
     print(f"Generated playlist: {generated_name}")
+    print(f"Playlist URL: {gen_playlist['external_urls']['spotify']}")
 
 ####################
 #   MAIN STARTER   #
