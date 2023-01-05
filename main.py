@@ -15,7 +15,10 @@ from colorama import Fore as fore
 #   CONFIG VALUES -> README.md   #
 ##################################
 
-from utils.user_secrets import username, clientID, clientSecret, redirectURI, banner
+try:
+    from utils.user_secrets import username, clientID, clientSecret, redirectURI, banner
+except:
+    print("Error: utils/user_secrets.py NOT found\nView https://github.com/omkarxpatel/Spotify-Playlist-Generator#getting-started")
 
 ##########################
 #   CHECKLIST FUNCTION   #
@@ -101,7 +104,7 @@ def playSong(spotifyObject, searchQuery):
 ##############################
 #   GET A RECOMMENDED SONG   #
 ##############################
- 
+
 def recommendSong(spotifyObject, song1, song2, song3):
     
     results_1 = spotifyObject.search(q=song1, type="track")
@@ -168,7 +171,7 @@ def generate_similar_playlist(spotifyObject, playlist_url):
     
 
     for _ in range(int(roundPlaylistLen(len(song_ids))/4)):
-        recommendations = spotifyObject.recommendations(seed_tracks=random.sample(song_ids, 5))
+        recommendations = spotifyObject.recommendations(seed_tracks=random.sample(song_ids, 20))
 
         for y in range(len(recommendations["tracks"])):
             song = recommendations["tracks"][y]["name"]
