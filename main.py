@@ -20,20 +20,29 @@ try:
 except:
     print("Error: utils/user_secrets.py NOT found\nView https://github.com/omkarxpatel/Spotify-Playlist-Generator#getting-started")
 
-##########################
-#   CHECKLIST FUNCTION   #
-##########################
+###########################
+#   CHECKLIST FUNCTIONS   #
+###########################
 
 not_completed = "❌"
 completed = "✅"
 working = "⏳"
 
-topbot = "----------------------------------------"
-step1 = f"| {not_completed} | Extracting songs                |"
-step2 = f"| {not_completed} | Extracting song-ids             |"
-step3 = f"| {not_completed} | Generating songs                |"
-step4 = f"| {not_completed} | Adding songs                    |"
-step5 = f"| {not_completed} | Playlist finished               |"
+topbot = "--------------------------------------------"
+step1 = f"| {not_completed} | Extracting songs         |          |"
+step2 = f"| {not_completed} | Extracting song-ids      |          |"
+step3 = f"| {not_completed} | Generating songs         |          |"
+step4 = f"| {not_completed} | Adding songs             |          |"
+step5 = f"| {not_completed} | Playlist finished        |          |"
+
+
+def checklist_helper(task):
+    task = int(task)
+    taskTime = round(time.time()-task,2)
+    spacing = " "*(6-len(str(taskTime)))
+
+    return([taskTime, spacing])
+
 
 def checklist(step, working_bool=None, task=None):
     clear(0)
@@ -44,26 +53,29 @@ def checklist(step, working_bool=None, task=None):
         value = working
 
     if step == 1:
-        step1 = f"| {value} | Extracting songs                |"
+        if task:
+            val = checklist_helper(task)
+            step1 = f"| {value} | Extracting songs         | ({val[0]}s){val[1]}|"
 
     elif step == 2:
-        step2 = f"| {value} | Extracting song-ids             |"
+        if task:
+            val = checklist_helper(task)
+            step2 = f"| {value} | Extracting song-ids      | ({val[0]}s){val[1]}|"
 
     elif step == 3:
-        step3 = f"| {value} | Generating songs                |"
+        if task:
+            val = checklist_helper(task)
+            step3 = f"| {value} | Generating songs         | ({val[0]}s){val[1]}|"
 
     elif step == 4:
-        step4 = f"| {value} | Adding songs                    |"
+        if task:
+            val = checklist_helper(task)
+            step4 = f"| {value} | Adding songs             | ({val[0]}s){val[1]}|"
 
     elif step == 5:
         if task:
-            task = int(task)
-            taskTime = round(time.time()-task,2)
-            spacing = " "*(11-len(str(taskTime)))
-
-            step5 = f"| {value} | Playlist finished ({taskTime}s){spacing}|"
-        else:
-            step5 = f"| {value} | Playlist finished               |"
+            val = checklist_helper(task)
+            step5 = f"| {value} | Playlist finished        | ({val[0]}s){val[1]}|"  
     
 
     print(topbot); print(step1); print(step2); print(step3); print(step4); print(step5); print(topbot)
@@ -155,8 +167,9 @@ def recommendSong(spotifyObject, song1, song2, song3):
 def generate_similar_playlist(spotifyObject, playlist_url):
     tasktime = time.time()
 
-    checklist(0)
+    checklist(0, task=tasktime)
     checklist(1, True)
+    onetime = time.time()
 
     playlist_id = playlist_url.split("/")[-1]
     playlist = spotifyObject.playlist(playlist_id)
@@ -164,21 +177,31 @@ def generate_similar_playlist(spotifyObject, playlist_url):
     song_names = []
     tracks = playlist['tracks']
 
-    for item in tracks['items']:
+    for z in range(len(tracks['items'])):
+        item = tracks['items'][z]
         song_names.append(item['track']['name'])
 
-    checklist(1)
+        checklist(1, True, task=tasktime)
+
+    checklist(1, task=onetime)
     checklist(2, True)
+    twotime = time.time()
     
     song_ids = []
     total_songs = []
 
-    for item in song_names:
+    for z in range(len(song_names)):
+        item = song_names[z]
         result = spotifyObject.search(q=item, type="track")
         song_id = result["tracks"]["items"][0]["id"]
 
         song_ids.append(song_id)
-    
+        checklist(2, True, task=twotime)
+
+
+    checklist(2, task=twotime)
+    checklist(3, True)
+    threetime = time.time()
 
     for _ in range(int(roundPlaylistLen(len(song_ids))/4)):
         recommendations = spotifyObject.recommendations(limit=20, seed_tracks=random.sample(song_ids, 5))
@@ -189,9 +212,7 @@ def generate_similar_playlist(spotifyObject, playlist_url):
 
             value = f"{song}:{song_uri}"
             total_songs.append(value)
-        
-    checklist(2)
-    checklist(3, True)
+            checklist(3, True, task=threetime)
 
     scope = 'playlist-modify-public playlist-modify-private'
     token = util.prompt_for_user_token(username, scope, client_id=clientID, client_secret=clientSecret, redirect_uri=redirectURI)
@@ -201,15 +222,18 @@ def generate_similar_playlist(spotifyObject, playlist_url):
     gen_playlist = sp.user_playlist_create(username, name=generated_name)
     gen_playlist_id = gen_playlist['id']
 
-    checklist(3)
+    checklist(3, task=threetime)
     checklist(4, True)
+    fourtime = time.time()
 
     for item in total_songs:
         item = item.split(":")
 
         sp.user_playlist_add_tracks(username, gen_playlist_id, [item[-1]])
+        checklist(4, True, task=fourtime)
 
-    checklist(4)
+
+    checklist(4, task=fourtime)
     checklist(5, True)
 
     time.sleep(1)
