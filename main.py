@@ -314,6 +314,6 @@ def main():
             clear(3)
 
         else:
-            clear(0); exit()
+            exit()
     
 main()
