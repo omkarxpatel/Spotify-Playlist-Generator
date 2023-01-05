@@ -58,4 +58,4 @@ To get started, install spotipy and create an app on https://developers.spotify.
 Add your new ID and SECRET to your environment:
 
 ## Reporting issues:
-If you find any bugs, leave a comment or a push request
+If you find any bugs, leave a comment or a pull request
