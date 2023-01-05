@@ -29,6 +29,9 @@ pip install spotipy --upgrade
 3. Get a generated playlist made off of an existing playlist
 - Enter a playlist url and it will generate a brand new playlist with similar songs
 
+<img width="509" alt="image" src="https://user-images.githubusercontent.com/106450097/210877746-35c683d3-00cc-4cfe-91c9-5b29f2a9611c.png">
+<img width="1038" alt="Screen Shot 2023-01-05 at 12 52 46 PM" src="https://user-images.githubusercontent.com/106450097/210877856-1c095c39-55d7-449b-9045-c7c3b8cc38c0.png">
+
 # Getting started:
 ## Create a user_secrets file
 - Create a utils folder
