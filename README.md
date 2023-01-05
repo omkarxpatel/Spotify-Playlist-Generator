@@ -3,24 +3,6 @@
 
 Spotipy's full documentation is online at [Spotipy Documentation](http://spotipy.readthedocs.org/).
 
-## Installation
-
-```bash
-pip install spotipy
-```
-
-alternatively, for Windows users 
-
-```bash
-py -m pip install spotipy
-```
-
-or upgrade
-
-```bash
-pip install spotipy --upgrade
-```
-
 ## Features:
 1. Play a song via your terminal
 - Enter a song name and it will start playing in your spotify application
