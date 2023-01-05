@@ -71,10 +71,8 @@ def raiseError(error):
 
 def clear(val):
     if val != 0:
-        os.system("clear")
-    else:
         time.sleep(val)
-        os.system("clear")
+    os.system("clear")
 
 ###################
 #   PLAY A SONG   #
