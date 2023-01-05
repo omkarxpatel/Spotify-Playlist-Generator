@@ -11,9 +11,9 @@ import webbrowser
 import spotipy.util as util
 from colorama import Fore as fore
 
-##################################
-#   CONFIG VALUES -> README.md   #
-##################################
+###########################################
+#   CONFIG VALUES -> README.md for setup  #
+###########################################
 
 try:
     from utils.user_secrets import username, clientID, clientSecret, redirectURI, banner
