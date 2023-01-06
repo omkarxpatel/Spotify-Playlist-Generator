@@ -16,9 +16,9 @@ Spotipy's full documentation is online at [Spotipy Documentation](http://spotipy
 
 # Getting started:
 ## Create a user_secrets file
-- Create a utils folder
-- Add user_secrets.py to that folder
-- Enter the following code
+1. Create a `utils` folder
+2. Add `user_secrets.py to` that folder
+3. Enter the following code into that file
 ```py
 username = "YOUR-USERNAME-ID"
 clientID = "YOUR-CLIENT-ID"
@@ -33,6 +33,7 @@ banner = """Welcome, {}!
 | 3 | Generate a new playlist         |
 ---------------------------------------"""
 ```
+
 ## How to get secrets:
 A full set of examples can be found in the [online documentation](http://spotipy.readthedocs.org/) and in the [Spotipy examples directory](https://github.com/plamere/spotipy/tree/master/examples).
 
