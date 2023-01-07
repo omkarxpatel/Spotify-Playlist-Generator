@@ -1,4 +1,4 @@
 .cache*
-utils*
+user_secrets.py
 __pycache__
 .flask_session*
