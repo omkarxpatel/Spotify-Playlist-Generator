@@ -2,3 +2,4 @@
 user_secrets.py
 __pycache__
 .flask_session*
+.DS_Store
