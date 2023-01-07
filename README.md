@@ -3,24 +3,6 @@
 
 Spotipy's full documentation is online at [Spotipy Documentation](http://spotipy.readthedocs.org/).
 
-## Installation
-
-```bash
-pip install spotipy
-```
-
-alternatively, for Windows users 
-
-```bash
-py -m pip install spotipy
-```
-
-or upgrade
-
-```bash
-pip install spotipy --upgrade
-```
-
 ## Features:
 1. Play a song via your terminal
 - Enter a song name and it will start playing in your spotify application
@@ -34,9 +16,9 @@ pip install spotipy --upgrade
 
 # Getting started:
 ## Create a user_secrets file
-- Create a utils folder
-- Add user_secrets.py to that folder
-- Enter the following code
+1. Create a `utils` folder
+2. Add `user_secrets.py to` that folder
+3. Enter the following code into that file
 ```py
 username = "YOUR-USERNAME-ID"
 clientID = "YOUR-CLIENT-ID"
@@ -51,6 +33,7 @@ banner = """Welcome, {}!
 | 3 | Generate a new playlist         |
 ---------------------------------------"""
 ```
+
 ## How to get secrets:
 A full set of examples can be found in the [online documentation](http://spotipy.readthedocs.org/) and in the [Spotipy examples directory](https://github.com/plamere/spotipy/tree/master/examples).
 
@@ -58,4 +41,4 @@ To get started, install spotipy and create an app on https://developers.spotify.
 Add your new ID and SECRET to your environment:
 
 ## Reporting issues:
-If you find any bugs, leave a comment or a push request
+If you find any bugs, leave a comment or a pull request
