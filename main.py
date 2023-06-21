@@ -10,7 +10,7 @@ import spotipy
 import webbrowser
 import spotipy.util as util
 from colorama import Fore as fore
-from twilio.rest import Client
+# from twilio.rest import Client
 
 
 ###########################################
@@ -245,13 +245,13 @@ def generate_similar_playlist(spotifyObject, playlist_url):
     print(f"Generated playlist: {generated_name}")
     print(f"Playlist URL: {gen_playlist['external_urls']['spotify']}")
     
-    client = Client(account_sid, auth_token)
+    # client = Client(account_sid, auth_token)
 
-    message = client.messages.create(
-        to=acc_number, 
-        from_="+19295773793",
-        body=f"Your generated playlist is: {gen_playlist['external_urls']['spotify']}")
-    print(f"Message SID: {message.sid}")
+    # message = client.messages.create(
+    #     to=acc_number, 
+    #     from_="+19295773793",
+    #     body=f"Your generated playlist is: {gen_playlist['external_urls']['spotify']}")
+    # print(f"Message SID: {message.sid}")
 
 ####################
 #   MAIN STARTER   #
